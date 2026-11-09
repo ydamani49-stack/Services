@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محل الخياطة - تالبورجت</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>✂️ محل الخياطة - تالبورجت</h1>
+            <p>دفتر الزبناء والطلبات السريع</p>
+        </header>
+
+        <button class="toggle-form-btn" onclick="toggleForm()">
+            <span id="toggleIcon">➕</span> <span id="toggleText">إضافة طلب جديد</span>
+        </button>
+
+        <div class="card" id="formContainer">
+            <h2>تسجيل طلب جديد</h2>
+            <form id="customerForm">
+                
+                <div class="form-section">
+                    <span class="form-section-title">1. معلومات الزبون</span>
+                    <div class="form-grid">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>اسم الزبون:</label>
+                                <input type="text" id="name" required placeholder="مثال: يوسف العلوي">
+                            </div>
+                            <div class="form-group">
+                                <label>رقم الهاتف (اختياري):</label>
+                                <input type="text" id="phone" placeholder="مثال: 212600000000+">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <span class="form-section-title">2. تفاصيل العمل والموعد</span>
+                    <div class="form-grid">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>نوع العمل (تعديل / تفصيل Ref):</label>
+                                <input type="text" id="alteration" required placeholder="مثال: تطويل أكمام قميص">
+                            </div>
+                            <div class="form-group">
+                                <label>صور الموديل (عدة صور):</label>
+                                <input type="file" id="itemPhotos" accept="image/*" multiple>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>موعد الاستلام:</label>
+                            <div class="date-quick-buttons">
+                                <button type="button" class="date-btn" onclick="setDueDateDays(1, this)">غداً</button>
+                                <button type="button" class="date-btn" onclick="setDueDateDays(3, this)">بعد 3 أيام</button>
+                                <button type="button" class="date-btn" onclick="setDueDateDays(7, this)">خلال أسبوع</button>
+                            </div>
+                            <input type="date" id="dueDate" style="margin-top: 5px;" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>الحالة الأولية:</label>
+                            <select id="status">
+                                <option value="قيد الانتظار">قيد الانتظار</option>
+                                <option value="جاري العمل">جاري العمل</option>
+                                <option value="جاهز للاستلام">جاهز للاستلام</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <span class="form-section-title">3. القياسات (قبل ➔ بعد - اختيارية)</span>
+                    <div class="form-grid">
+                        
+                        <div class="input-group-meas box-length">
+                            <label style="color: #713f12; font-weight: 700;">الطول (سم):</label>
+                            <div class="form-row">
+                                <input type="number" id="lengthBefore" placeholder="قبل">
+                                <input type="number" id="lengthAfter" placeholder="بعد">
+                            </div>
+                        </div>
+
+                        <div class="input-group-meas box-shoulder">
+                            <label style="color: #581c87; font-weight: 700;">الكتف (سم):</label>
+                            <div class="form-row">
+                                <input type="number" id="shoulderBefore" placeholder="قبل">
+                                <input type="number" id="shoulderAfter" placeholder="بعد">
+                            </div>
+                        </div>
+
+                        <div class="input-group-meas box-chest">
+                            <label style="color: #0369a1; font-weight: 700;">الصدر (سم):</label>
+                            <div class="form-row">
+                                <input type="number" id="chestBefore" placeholder="قبل">
+                                <input type="number" id="chestAfter" placeholder="بعد">
+                            </div>
+                        </div>
+
+                        <div class="input-group-meas box-sleeve">
+                            <label style="color: #166534; font-weight: 700;">الكم / إضافات:</label>
+                            <div class="form-row">
+                                <input type="text" id="sleeveBefore" placeholder="قبل">
+                                <input type="text" id="sleeveAfter" placeholder="بعد">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">حفظ الطلب الجديد</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h2>📋 قائمة الطلبات النشطة</h2>
+            
+            <div class="stats-box">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalCount">0</div>
+                    <div class="stat-label">إجمالي الطلبات</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="workingCount">0</div>
+                    <div class="stat-label">قيد العمل والانتظار</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="readyCount">0</div>
+                    <div class="stat-label">جاهز للاستلام</div>
+                </div>
+            </div>
+
+            <input type="text" id="searchInput" class="search-box" placeholder="🔍 ابحث باسم الزبون أو نوع الطلب...">
+            
+            <div class="filter-bar">
+                <button class="filter-btn active-filter" onclick="setFilter('الكل', this)">الكل</button>
+                <button class="filter-btn" onclick="setFilter('قيد الانتظار', this)">قيد الانتظار</button>
+                <button class="filter-btn" onclick="setFilter('جاري العمل', this)">جاري العمل</button>
+                <button class="filter-btn" onclick="setFilter('جاهز للاستلام', this)">جاهز للاستلام</button>
+            </div>
+
+            <div id="customerList" class="customer-list"></div>
+        </div>
+    </div>
+
+    <div id="lightbox" onclick="this.style.display='none'">
+        <img id="lightboxImg" src="">
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
